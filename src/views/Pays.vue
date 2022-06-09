@@ -10,27 +10,32 @@
       </template>
     </Head>
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="overflow-x-auto">
-                      <table class="table-auto w-full whitespace-nowrap">
-                          <thead class="text-left">
+                        <table class="table-auto w-full">
+                          <thead class="text-left text-sm">
                               <tr class="border-b border-gray-200">
-                                  <th class="px-2 py-3">ID</th>
-                                  <th class="px-2">Name</th>
-                                  <th class="px-2">Number</th>
-                                  <th class="px-2">Status</th>
-                                  <th class="px-2"></th>
+                                  <th class="px-6 py-3">ID</th>
+                                  <th class="px-8">Name</th>
+                                  <th class="px-8">Number</th>
+                                  <th class="px-8">Status</th>
+                                  <th class="text-center">Agregar productos</th>
                               </tr>
                           </thead>
-                            <tbody v v-if="!loading">
-                              <tr v-for="(item, index) in pays" :key="item.id" class="cursor-pointer odd:bg-gray-50">
-                                  <td class="px-2 py-3" @click="show(item)">{{item.id}}</td>
-                                  <td class="px-2" @click="show(item)">{{item.name}}</td>
-                                  <td class="px-2" @click="show(item)">{{item.number}}</td>
-                                  <td class="px-2" @click="show(item)">{{item.payment.status}}</td>
-                                  <td class="px-2"></td>
+                            <tbody class="text-sm" v-if="!loading">
+                              <tr v-for="(item) in pays" :key="item.id" class="odd:bg-gray-50">
+                                  <td class="px-6 py-3">{{item.id}}</td>
+                                  <td class="px-8">{{item.name}}</td>
+                                  <td class="px-8">{{item.number}}</td>
+                                  <td class="px-8">{{item.payment.status}}</td>
+                                  <td class="text-sm text-center">
+                                      <button @click="show(item)" class="py-2 px-4 bg-white text-gray-500 font-semibold text-sm text-center rounded-lg shadow-md border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-75">
+                                          <font-awesome-icon icon ="cart-shopping" class="text-xs"></font-awesome-icon>
+                                          <span class="hidden sm:inline ml-2">Agregar</span>
+                                      </button>
+                                  </td>
                               </tr>
                           </tbody>
                           <tfoot v-else>
@@ -48,7 +53,7 @@
         </div>
     </div>
   </div>
-  <Modal v-show="isModalVisible" @close="closeModal" sizeModal="max-w-7xl">
+  <Modal :toogle="toogleModal">
       <template #header>
         <h2 class="text-xl">Productos</h2>
       </template>
@@ -106,15 +111,6 @@
                         <td class="px-2">{{item.price}}</td>
                     </tr>
                 </tbody>
-                <!--<tfoot class="text-sm" v-if="current.total > 0">
-                    <tr>
-                        <td colspan="4"></td>
-                        <th class="px-2 py-3 text-center">Total</th>
-                        <th class="px-2 text-right">{{formatCurrency(current.subtotal)}}</th>
-                        <th class="px-2 text-right">{{formatCurrency(current.tax)}}</th>
-                        <th class="px-2 text-right">{{formatCurrency(current.total)}}</th>
-                    </tr>
-                </tfoot>-->
               </table>
           </div>
       </template>
@@ -150,7 +146,7 @@ export default {
     return {
         pays: [],
         loading: false,
-        isModalVisible: false,
+        toogleModal: false,
         products: [],
         errors: {},
         form: {}
@@ -194,32 +190,30 @@ export default {
           return false
         }
         else {
-        this.loading = true
-        this.form.id = Math.random().toString(36).substr(2, 18);
-        this.products.items.push(this.form);
-
-        Swal.fire({
-          title: '¡Producto creado con éxito!',
-          icon: 'success',
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000
-        })
-        this.form = {};
-        this.loading = false
+          this.loading = true
+          this.form.id = Math.random().toString(36).substr(2, 18)
+          this.products.items.push(this.form);
+          localStorage.setItem(JSON.stringify(this.products.number),JSON.stringify(this.products));
+          Swal.fire({
+            title: '¡Producto creado con éxito!',
+            icon: 'success',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+          })
+          this.form = {};
+          this.loading = false
         }
     },
 
     show(itemProduct){
-      this.isModalVisible = true
-      this.products = itemProduct      
+      console.log(JSON.parse(localStorage.getItem(this.products.number)))
+      this.toogleModal = !this.toogleModal
+      this.products = itemProduct
+      
     },
-
-    closeModal() {
-      this.isModalVisible = false;
-    },
-
+    
   }
 }
 </script>
