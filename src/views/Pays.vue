@@ -123,7 +123,7 @@
       </template>
       <template #footer>
           <div class="flex items-center justify-end">
-              <Button type="button" class="ml-4" bgColor="bg-blue-400" @click="pay">
+              <Button type="button" class="ml-4" bgColor="bg-celeste-default" @click="pay">
                   Pagar
               </Button>
           </div>
