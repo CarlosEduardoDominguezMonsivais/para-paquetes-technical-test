@@ -64,28 +64,32 @@
               </div>
           </div>
           <div class="text-left">
-            <div class="grid gap-2 grid-cols-1 sm:grid-cols-2">
-              <div class="mt-4">
+            <div class="grid gap-2 grid-cols-1 sm:grid-cols-6">
+              <div class="mt-4 col-span-6 sm:col-span-3">
                   <Label for="sku" value="Sku *" />
                   <Input id="sku" type="text" class="mt-1 block w-full"  autocomplete="sku" placeholder="TEST1" required v-model="form.sku"/>
                   <small class="text-red-400" v-if="errors.sku">{{errors.sku[0]}}</small>
               </div>     
-              <div class="mt-4">
+              <div class="mt-4 col-span-6 sm:col-span-3">
                   <Label for="name" value="Name *" />
                   <Input id="name" type="text" class="mt-1 block w-full"  autocomplete="name" placeholder="Pantalón" required v-model="form.name"/>
                   <small class="text-red-400" v-if="errors.name">{{errors.name[0]}}</small>
               </div>  
-              <div class="mt-4">
+              <div class="mt-4 col-span-6 sm:col-span-2">
                   <Label for="quantity" value="Quantity *" />
                   <Input id="quantity" type="number" class="mt-1 block w-full" autocomplete="quantity" placeholder="1" required v-model="form.quantity"/>
                   <small class="text-red-400" v-if="errors.quantity">{{errors.quantity[0]}}</small>
               </div>
-              <div class="mt-4">
+              <div class="mt-4 col-span-6 sm:col-span-2">
                   <Label for="price" value="Price *" />
                   <Input id="price" type="number" class="mt-1 block w-full" autocomplete="price" placeholder="1000" required v-model="form.price"/>
                   <small class="text-red-400" v-if="errors.price">{{errors.price[0]}}</small>
               </div>
-              <div></div>
+              <div class="mt-4 col-span-6 sm:col-span-2">
+                <Label for="total" value="Total" />
+                <Input id="total" type="number" class="mt-1 block w-full bg-gray-50" v-model="formItemTotal" autocomplete="total" required readonly disabled />
+              </div>
+              <div class="col-span-5"></div>
               <div class="flex items-center justify-end">
                 <Button type="button" class="ml-4 mt-4" @click="submit">
                     Crear
@@ -101,6 +105,7 @@
                         <th class="px-2">Name</th>
                         <th class="px-2">Quantity</th>
                         <th class="px-2">Price</th>
+                        <th class="px-2">Total</th>
                     </tr>
                 </thead>
                 <tbody class="text-xs">
@@ -109,6 +114,8 @@
                         <td class="px-2">{{item.name}}</td>
                         <td class="px-2">{{item.quantity}}</td>
                         <td class="px-2">{{item.price}}</td>
+                        <td class="px-2" v-if ="item.total != null">{{item.total}}</td>
+                        <td class="px-2" v-else>{{item.price}}</td>
                     </tr>
                 </tbody>
               </table>
@@ -116,7 +123,7 @@
       </template>
       <template #footer>
           <div class="flex items-center justify-end">
-              <Button type="button" class="ml-4" bgColor="bg-blue-400">
+              <Button type="button" class="ml-4" bgColor="bg-blue-400" @click="pay">
                   Pagar
               </Button>
           </div>
@@ -135,21 +142,24 @@ import Swal from 'sweetalert2'
 
 export default {
   name: 'Pays',
+  
   components: {
     Head,
     Modal,
     Label,
     Input,
     Button
-},
+  },
+
   data () {
     return {
-        pays: [],
-        loading: false,
-        toogleModal: false,
-        products: [],
-        errors: {},
-        form: {}
+      pays: [],
+      loading: false,
+      toogleModal: false,
+      products: [],
+      total: 0,
+      errors: {},
+      form: {}
     }
   },
   mounted () {
@@ -193,7 +203,7 @@ export default {
           this.loading = true
           this.form.id = Math.random().toString(36).substr(2, 18)
           this.products.items.push(this.form);
-          localStorage.setItem(JSON.stringify(this.products.number),JSON.stringify(this.products));
+          localStorage.setItem(this.products.number,JSON.stringify(this.products));
           Swal.fire({
             title: '¡Producto creado con éxito!',
             icon: 'success',
@@ -208,12 +218,30 @@ export default {
     },
 
     show(itemProduct){
-      console.log(JSON.parse(localStorage.getItem(this.products.number)))
-      this.toogleModal = !this.toogleModal
-      this.products = itemProduct
-      
+      if(JSON.parse(localStorage.getItem(itemProduct.number)) != null) {
+        this.products = JSON.parse(localStorage.getItem(itemProduct.number))
+      }else{
+        this.products = itemProduct
+      }
+      this.toogleModal = !this.toogleModal      
     },
-    
+
+    pay() {
+       Swal.fire({
+          title: "¡Se ha efectuado el pago!",
+          icon: "success",
+      })
+      this.toogleModal = !this.toogleModal      
+    }
+
+  },
+
+  computed: {
+    formItemTotal: function () {
+        let total = (this.form.quantity * this.form.price)
+        this.form.total = total.toFixed(2)
+        return  total.toFixed(2)
+    }
   }
 }
 </script>
