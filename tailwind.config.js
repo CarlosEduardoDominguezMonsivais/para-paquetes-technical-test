@@ -5,6 +5,14 @@ module.exports = {
     extend: {
         fontFamily: {
             sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+        },
+        colors:{
+          azul: {
+              default: '#0B4F7C',
+          },
+          celeste:{
+            default: '#33D9E2'
+          }
         }
     }
   },

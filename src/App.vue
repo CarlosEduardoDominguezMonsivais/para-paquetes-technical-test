@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-indigo-600">
+  <div class="bg-azul-default">
     <nav
       class="
         container
@@ -20,7 +20,7 @@
             hover:text-indigo-400
           "
           >
-          <img alt="logo" src="./assets/parapaquetes.svg">
+          <img src="./assets/parapaquetes.png" alt="logo-parapaquetes">
         </router-link>
         <!--  Menu para movil -->
         <div @click="toggleNav" class="flex md:hidden">
