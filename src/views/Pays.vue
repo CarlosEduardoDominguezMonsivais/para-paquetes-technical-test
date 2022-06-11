@@ -31,10 +31,10 @@
                                   <td class="px-8">{{item.number}}</td>
                                   <td class="px-8">{{item.payment.status}}</td>
                                   <td class="text-sm text-center">
-                                      <button @click="show(item)" class="py-2 px-4 bg-white text-gray-500 font-semibold text-sm text-center rounded-lg shadow-md border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-75">
+                                      <Button @click="show(item)" elementColor="bg-white text-gray-500">
                                           <font-awesome-icon icon ="cart-shopping" class="text-xs"></font-awesome-icon>
                                           <span class="hidden sm:inline ml-2">Agregar</span>
-                                      </button>
+                                      </Button>
                                   </td>
                               </tr>
                           </tbody>
@@ -91,8 +91,9 @@
               </div>
               <div class="col-span-5"></div>
               <div class="flex items-center justify-end">
-                <Button type="button" class="ml-4 mt-4" @click="submit">
-                    Crear
+                <Button type="button" class="ml-4 mt-4" elementColor="text-white bg-gray-900" @click="submit">
+                  <font-awesome-icon icon="plus" class="text-xs"></font-awesome-icon>
+                  <span class="hidden sm:inline ml-2">Crear</span>
                 </Button>
               </div>
             </div>
@@ -123,8 +124,9 @@
       </template>
       <template #footer>
           <div class="flex items-center justify-end">
-              <Button type="button" class="ml-4" bgColor="bg-celeste-default" @click="pay">
-                  Pagar
+              <Button type="button" class="ml-4" elementColor="bg-celeste-default text-white" @click="pay">
+                <font-awesome-icon icon="coins" class="text-xs"></font-awesome-icon>
+                <span class="hidden sm:inline ml-2">Pagar</span>
               </Button>
           </div>
       </template>
@@ -167,6 +169,8 @@ export default {
   },
 
   methods: {
+    
+    //Metodo para consultar y extraer los pagos desde la api https://eshop-deve.herokuapp.com/api/v2/orders
     getAll() {
         this.loading = true
         const token = 'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwUGFINU55VXRxTUkzMDZtajdZVHdHV3JIZE81cWxmaCIsImlhdCI6MTYyMDY2Mjk4NjIwM30.lhfzSXW9_TC67SdDKyDbMOYiYsKuSk6bG6XDE1wz2OL4Tq0Og9NbLMhb0LUtmrgzfWiTrqAFfnPldd8QzWvgVQ';
@@ -181,6 +185,7 @@ export default {
         })
     },
 
+    //Metodo para agregar los producos a los pagos
     submit() {
         this.errors = {}
         if (!this.form.sku) {
@@ -217,6 +222,7 @@ export default {
         }
     },
 
+    //Metodo para consultar y extraer los productos de los pagos existentes
     show(itemProduct){
       if(JSON.parse(localStorage.getItem(itemProduct.number)) != null) {
         this.products = JSON.parse(localStorage.getItem(itemProduct.number))
@@ -235,8 +241,8 @@ export default {
     }
 
   },
-
   computed: {
+    //Función para calcular el precio total de los productos
     formItemTotal: function () {
         let total = (this.form.quantity * this.form.price)
         this.form.total = total.toFixed(2)
