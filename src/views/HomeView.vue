@@ -7,7 +7,7 @@
                     <h4 class="text-2xl text-azul-default pb-4">Documentación del Examen</h4>
                     <h5 class="text-xl text-azul-default pb-4">Herramientas Usadas</h5>
                     <p>Para el desarrollo de esta prueba técnica se utilizó el framework de Front-end "Vue.js" para la maquetación de la parte visual se uso <strong>Tailwind CSS</strong>. Para
-                        la parte de los iconos visuales se decidio usar <strong>FontAwesome v6</strong>. En cuanto a las alertas se inclino por el uso de <strong>SweetAlert2</strong> y por último se útilizo la herramienta de <strong>Netlify</strong> para alojar y mantener la aplicación web.</p>
+                        la parte de los iconos visuales se decidio usar <strong>FontAwesome v6</strong>. En cuanto a las alertas se inclino por el uso de <strong>SweetAlert2</strong> y por último se útilizo la herramienta de <strong>Netlify</strong> para hacer el deploy y alojar la aplicación web.</p>
                     <h6 class="text-lg text-azul-default pt-4">Links de Herramientas</h6>
                     <ul class="flex flex-col py-4 text-blue-600">
                         <li><a target="_blank" href="https://vuejs.org/">Vue.js</a> </li>
