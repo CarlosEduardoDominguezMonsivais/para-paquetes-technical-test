@@ -1,5 +1,5 @@
 <template>
-    <button :type="type" class="inline-flex items-center font-semibold px-4 py-2 border border-transparent rounded-md text-sm text-white focus:outline-none focus:shadow-outline-gray transition ease-in-out duration-150" :class="bgColor">
+    <button :type="type" class="py-2 px-4 font-semibold text-sm text-center rounded-lg shadow-md border border-gray-300 focus:outline-none focus:ring-2 focus:color-azul-default focus:ring-opacity-75" :class="elementColor">
         <slot />
     </button>
 </template>
@@ -11,9 +11,9 @@ export default {
             type: String,
             default: 'submit',
         },
-        bgColor: {
+        elementColor: {
             type: String,
-            default: 'bg-gray-900',
+            default: 'bg-gray-900 text-white',
         },
     }
 }
